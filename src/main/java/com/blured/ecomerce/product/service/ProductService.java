@@ -5,6 +5,8 @@ import com.blured.ecomerce.product.domain.entity.Product;
 import com.blured.ecomerce.product.exception.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
+@RefreshScope
 public class ProductService {
     @Autowired
     ProductRepository productRepo;
@@ -67,5 +70,12 @@ public class ProductService {
         return productRepo.findByCatId(id);
     }
 
+    @Value("${testMessage:Hello default}")
+    private String message;
+
+    @RequestMapping("/testMessage")
+    String getTestMessage() {
+        return message;
+    }
 
 }
